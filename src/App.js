@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Products, Navbar, Cart} from './components';
-
-// == Import de notre commerce via commerce.js
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+// == Import de notre commerce via lib/commerce.js
 import { commerce } from './lib/commerce';
+
 
 function App() {
 
@@ -37,13 +38,22 @@ function App() {
  
   
   return (
-    <div className="App">
-        <Navbar totalItems={cart.total_items} />
-        {/* On envoie notre liste de produit récupérée au composant <Products /> */}
-        {/* <Products products={products} onAddToCart={handleAddToCart} />  */}
-        {/* On envoie notre panier au composant panier <Cart /> */}
-        <Cart cart={cart}/> 
-   </div>
+      <Router>
+            <div>
+                <Navbar totalItems={cart.total_items} />
+                <Switch>
+                    <Route exact path="/">
+                        {/* On envoie notre liste de produit récupérée au composant <Products /> */}
+                        <Products products={products} onAddToCart={handleAddToCart} />
+                    </Route>
+                    <Route exact path="/cart">
+                        {/* On envoie notre panier au composant panier <Cart /> */}
+                        <Cart cart={cart}/>  
+                    </Route>
+                </Switch>
+            </div>
+      </Router>
+  
   );
 }
 
